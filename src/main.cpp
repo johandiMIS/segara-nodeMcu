@@ -10,7 +10,13 @@ WiFiManager *wm = new WiFiManager;
 Wifi *wifi = new Wifi;
 Parsing *pars = new Parsing;
 Kredensial *Credential = new Kredensial;
-String Nama;
+API *getapi = new API;
+
+unsigned int i ,j=0;
+String dt[10];
+String dataIn;
+String serverName, body;
+
 
 void setup() 
 {
@@ -38,6 +44,8 @@ void loop()
     String data = Serial.readStringUntil('\n');
     String command = data.substring(0,data.indexOf('='));
     String dataValue = data.substring(data.indexOf('[')+1,data.indexOf(']'));
+    String server = data.substring(data.indexOf('(')+1,data.indexOf(')'));
+    String Body = data.substring(data.indexOf('{')+1,data.indexOf('}'));
     Serial.println(command);
     Serial.println(dataValue);
     if(command == "changeCredential"){ 
@@ -55,10 +63,18 @@ void loop()
     }
     else if(command == "sensorData"){
       // Parse sensor value here
+      dataIn += dataValue;
+      pars->dataSensor(dataIn);
+      dataIn="";
     }
+    else if (command == "GetAPI") {
+      Serial.println(server);
+      Serial.println(Body);
+      getapi->getAPI(server,Body);
+    }
+    
     else{
       Serial.println(data);
-      Serial.println("yessy");
     }
   }
   

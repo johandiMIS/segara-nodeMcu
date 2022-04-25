@@ -11,6 +11,12 @@ class Node
        
 };
 
+class API 
+{
+    public:
+        void getAPI(String server, String Body);
+};
+
 class Wifi
 {
     public:
@@ -23,9 +29,10 @@ class Wifi
 class Parsing
 {
     public:
-        String sensor[5];
+        String sensor[5], dataIn;
+        String dt[10];
         int i;
-        void dataSensor();
+        void dataSensor(String dataIn);
 };
 
 class Kredensial

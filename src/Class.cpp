@@ -28,31 +28,6 @@ void Wifi::CheckReset(){
     }
 }
 
-void Parsing::dataSensor()
-{
-  if(Serial.available()>0)
-  {
-
-
-
-    String sensorStr = Serial.readStringUntil('\n');
-    // double konduktivitas;
-    // double suhuAir;
-    // double jarak;
-    // double suhuDHT;
-
-    // Serial.print("Konduktivitas :");
-    // Serial.println(konduktivitas);
-    // Serial.print("suhuAir :");
-    // Serial.println(suhuAir);
-    // Serial.print("Jarak :");
-    // Serial.println(jarak);
-    // Serial.print("suhuDHT :");
-    // Serial.println(suhuDHT);
-    // Serial.println("");
-  }
-}
-
 void Kredensial::writeCredential(String credential)
 {
     int credentialLength = credential.length();
@@ -66,6 +41,43 @@ void Kredensial::writeCredential(String credential)
     EEPROM.commit();
 }
 
+void API::getAPI(String SERVER, String BODY)
+{
+    http.begin(client, SERVER);
+    http.addHeader("Content-Type", "application/x-www-form-urlencoded");         
+    int httpResponseCode = http.POST(BODY);
+    Serial.print("HTTP Response code: ");
+    Serial.println(httpResponseCode);
+    Serial.println("Berhasil terhubung dengan API");
+}
+
+void Parsing::dataSensor(String dataIn)
+{
+    unsigned int j=0;
+    dt[j]="";
+    for(i=0;i<dataIn.length();i++){
+    if ((dataIn[i] == '#') || (dataIn[i] == ','))
+    {
+     j++;
+     dt[j]="";    
+    }
+  
+    else
+    {
+    dt[j] = dt[j] + dataIn[i];
+    }
+  } 
+      
+    Serial.print("data 1 : ");
+    Serial.println(dt[0]);
+    Serial.print("data 2 : ");
+    Serial.println(dt[1]);
+    Serial.print("data 3 : ");
+    Serial.println(dt[2]);
+    Serial.print("data 4 : ");
+    Serial.println(dt[3]);
+    Serial.print("\n\n");
+}
 String Kredensial::readCredential()
 {
     char temp;
