@@ -20,7 +20,7 @@ String serverName, body;
 
 void setup() 
 {
-  Serial.begin(115200);
+  Serial.begin(9600);
   EEPROM.begin(512);
   wifi->Init(wm,D0);
   node->Init(wm);
@@ -68,8 +68,6 @@ void loop()
       dataIn="";
     }
     else if (command == "GetAPI") {
-      Serial.println(server);
-      Serial.println(Body);
       getapi->getAPI(server,Body);
     }
     
@@ -77,6 +75,5 @@ void loop()
       Serial.println(data);
     }
   }
-  
   delay(500);
 }

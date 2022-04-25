@@ -3,6 +3,7 @@
 #include <ESP8266HTTPClient.h>
 #include <EEPROM.h>
 
+
 StaticJsonDocument<1000> doc;
 HTTPClient http;
 WiFiClient client;
@@ -28,6 +29,49 @@ void Wifi::CheckReset(){
     }
 }
 
+void API::readData(){
+    char json [1000];
+    String stringReceived = http.getString();
+    stringReceived.toCharArray(json, 1000);
+      
+      DeserializationError error = deserializeJson(doc, json);
+
+      if (error)
+      {
+          Serial.print(F("deserializeJson() Failed:"));
+          Serial.println(error.f_str());
+          return;
+      }
+      else
+      {
+          
+            int light[4]={doc["light1"], doc["light2"], doc["light3"], doc["light4"]};
+            int aerator[4]= {doc["aerator1"], doc["aerator2"], doc["aerator3"], doc["aerator4"]};
+            int ppm[4] = { doc["ppm1"], doc["ppm2"], doc["ppm3"], doc["ppm4"]};
+            int start = doc["start"];
+
+            for(int i=0;i<4;i++)
+            {
+                Serial.print("light ");
+                Serial.print (i+1);
+                Serial.print(" = ");
+                Serial.println(light[i]);
+
+                Serial.print("aerotor ");
+                Serial.print (i+1);
+                Serial.print(" = ");
+                Serial.println(aerator[i]);
+
+                Serial.print("ppm ");
+                Serial.print (i+1);
+                Serial.print(" = ");
+                Serial.println(ppm[i]);
+            }
+            Serial.print("start =");
+            Serial.println(start);
+      }
+}
+
 void Kredensial::writeCredential(String credential)
 {
     int credentialLength = credential.length();
@@ -49,6 +93,7 @@ void API::getAPI(String SERVER, String BODY)
     Serial.print("HTTP Response code: ");
     Serial.println(httpResponseCode);
     Serial.println("Berhasil terhubung dengan API");
+    this->readData();
 }
 
 void Parsing::dataSensor(String dataIn)

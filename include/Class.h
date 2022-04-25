@@ -15,6 +15,7 @@ class API
 {
     public:
         void getAPI(String server, String Body);
+        void readData();
 };
 
 class Wifi
