@@ -58,6 +58,7 @@ void loop()
     }
     else{
       Serial.println(data);
+      Serial.println("Andre");
     }
   }
   
