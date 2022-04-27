@@ -5,6 +5,7 @@
 #include "Class.h"
 #include <EEPROM.h>
 
+StaticJsonDocument<1000> doc;
 Node *node = new Node;
 WiFiManager *wm = new WiFiManager;
 Wifi *wifi = new Wifi;
