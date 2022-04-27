@@ -70,6 +70,22 @@ void loop()
       dataIn += dataValue;
       pars->dataSensor(dataIn);
       dataIn="";
+
+      // Sensor API string format 
+      /*
+      {
+        "credential":"abc",
+        "data":{
+          "namaSensor1":"valueSensor1",
+          "namaSensor2":"valueSensor2",
+          "namaSensor3":"valueSensor3",
+          "namaSensor4":"valueSensor4",
+          "namaSensor5":"valueSensor5",
+        }
+      }
+      */
+
+
     }
     else if (command == "GetAPI") {
       getapi->getAPI(server,Body);
