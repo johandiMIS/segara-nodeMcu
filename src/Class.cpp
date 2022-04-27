@@ -4,7 +4,6 @@
 #include <EEPROM.h>
 
 
-StaticJsonDocument<1000> doc;
 HTTPClient http;
 WiFiClient client;
 
@@ -67,7 +66,7 @@ void API::readData(){
                 Serial.print(" = ");
                 Serial.println(ppm[i]);
             }
-            Serial.print("start =");
+            Serial.println("start =");
             Serial.println(start);
       }
 }

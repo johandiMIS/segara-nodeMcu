@@ -14,7 +14,11 @@ class Node
 class API 
 {
     public:
-        void getAPI(String server, String Body);
+        StaticJsonDocument<1000> doc;
+        String SERVER;
+        String BODY;
+        String stringReveived;
+        void getAPI(String SERVER, String BODY);
         void readData();
 };
 

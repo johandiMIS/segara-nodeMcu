@@ -42,13 +42,17 @@ void loop()
   wifi->CheckReset();
   if(Serial.available()>0)
   {
+    //format panggil API
+    //GetAPI=(getKontrol),{username=johandi&&password=johandi341}"
     String data = Serial.readStringUntil('\n');
     String command = data.substring(0,data.indexOf('='));
     String dataValue = data.substring(data.indexOf('[')+1,data.indexOf(']'));
-    String server = data.substring(data.indexOf('(')+1,data.indexOf(')'));
-    String Body = data.substring(data.indexOf('{')+1,data.indexOf('}'));
+    String server1 = data.substring(data.indexOf('(')+1,data.indexOf(')'));
+    String Body = data.substring(data.indexOf('{')+1,data.indexOf('}')); 
+    String server = ("http://duamusim-api.herokuapp.com/" + server1);
     Serial.println(command);
     Serial.println(dataValue);
+  
     if(command == "changeCredential"){ 
       // Change credential command format
       // changeCredential=[newCredential]
