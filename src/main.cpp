@@ -13,7 +13,6 @@ Parsing *pars = new Parsing;
 Kredensial *Credential = new Kredensial;
 API *getapi = new API;
 
-unsigned int i ,j=0;
 String dt[10];
 String dataIn;
 String serverName, body;
@@ -75,7 +74,6 @@ void loop()
     else if (command == "GetAPI") {
       getapi->getAPI(server,Body);
     }
-    
     else{
       Serial.println(data);
     }

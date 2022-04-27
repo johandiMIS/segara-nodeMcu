@@ -97,20 +97,19 @@ void API::getAPI(String SERVER, String BODY)
 
 void Parsing::dataSensor(String dataIn)
 {
-    unsigned int j=0;
+    int j = 0;
     dt[j]="";
-    for(i=0;i<dataIn.length();i++){
-    if ((dataIn[i] == '#') || (dataIn[i] == ','))
-    {
-     j++;
-     dt[j]="";    
-    }
-  
-    else
-    {
-    dt[j] = dt[j] + dataIn[i];
-    }
-  } 
+    for(int i=0 ; i < (int)dataIn.length() ; i++){
+        if ((dataIn[i] == '#') || (dataIn[i] == ','))
+        {
+            j++;
+            dt[j] = "";    
+        }
+        else
+        {
+            dt[j] = dt[j] + dataIn[i];
+        }
+    } 
       
     Serial.print("data 1 : ");
     Serial.println(dt[0]);
@@ -132,5 +131,5 @@ String Kredensial::readCredential()
         temp = EEPROM.read(i);
         credential += temp ;
     }
-  return credential;
+    return credential;
 }
