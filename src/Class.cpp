@@ -1,3 +1,4 @@
+#include <Arduino.h>
 #include <ArduinoJson.h>
 #include "Class.h"
 #include <ESP8266HTTPClient.h>
@@ -28,49 +29,6 @@ void Wifi::CheckReset(){
     }
 }
 
-void API::readData(){
-    char json [1000];
-    String stringReceived = http.getString();
-    stringReceived.toCharArray(json, 1000);
-      
-      DeserializationError error = deserializeJson(doc, json);
-
-      if (error)
-      {
-          Serial.print(F("deserializeJson() Failed:"));
-          Serial.println(error.f_str());
-          return;
-      }
-      else
-      {
-          
-            int light[4]={doc["light1"], doc["light2"], doc["light3"], doc["light4"]};
-            int aerator[4]= {doc["aerator1"], doc["aerator2"], doc["aerator3"], doc["aerator4"]};
-            int ppm[4] = { doc["ppm1"], doc["ppm2"], doc["ppm3"], doc["ppm4"]};
-            int start = doc["start"];
-
-            for(int i=0;i<4;i++)
-            {
-                Serial.print("light ");
-                Serial.print (i+1);
-                Serial.print(" = ");
-                Serial.println(light[i]);
-
-                Serial.print("aerotor ");
-                Serial.print (i+1);
-                Serial.print(" = ");
-                Serial.println(aerator[i]);
-
-                Serial.print("ppm ");
-                Serial.print (i+1);
-                Serial.print(" = ");
-                Serial.println(ppm[i]);
-            }
-            Serial.println("start =");
-            Serial.println(start);
-      }
-}
-
 void Kredensial::writeCredential(String credential)
 {
     int credentialLength = credential.length();
@@ -84,43 +42,48 @@ void Kredensial::writeCredential(String credential)
     EEPROM.commit();
 }
 
-void API::getAPI(String SERVER, String BODY)
+void API::PostAPI(String SERVER, String JsonBody)
 {
     http.begin(client, SERVER);
-    http.addHeader("Content-Type", "application/x-www-form-urlencoded");         
-    int httpResponseCode = http.POST(BODY);
-    Serial.print("HTTP Response code: ");
-    Serial.println(httpResponseCode);
-    Serial.println("Berhasil terhubung dengan API");
-    this->readData();
+    http.addHeader("Content-Type", "application/json");
+    
+    int responseCode = http.POST(JsonBody);  
+    const String response = http.getString();
+
+    Serial.print("Response Status : ");
+    Serial.print(responseCode);
+    Serial.print("Response Body : ");
+    Serial.println(response);
 }
 
-void Parsing::dataSensor(String dataIn)
-{
-    int j = 0;
-    dt[j]="";
-    for(int i=0 ; i < (int)dataIn.length() ; i++){
-        if ((dataIn[i] == '#') || (dataIn[i] == ','))
-        {
-            j++;
-            dt[j] = "";    
-        }
-        else
-        {
-            dt[j] = dt[j] + dataIn[i];
-        }
-    } 
+
+
+// void Parsing::dataSensor(String dataIn)
+// {
+//     int j = 0;
+//     dt[j]="";
+//     for(int i=0 ; i < (int)dataIn.length() ; i++){
+//         if ((dataIn[i] == '#') || (dataIn[i] == ','))
+//         {
+//             j++;
+//             dt[j] = "";    
+//         }
+//         else
+//         {
+//             dt[j] = dt[j] + dataIn[i];
+//         }
+//     } 
       
-    Serial.print("data 1 : ");
-    Serial.println(dt[0]);
-    Serial.print("data 2 : ");
-    Serial.println(dt[1]);
-    Serial.print("data 3 : ");
-    Serial.println(dt[2]);
-    Serial.print("data 4 : ");
-    Serial.println(dt[3]);
-    Serial.print("\n\n");
-}
+//     Serial.print("data 1 : ");
+//     Serial.println(dt[0]);
+//     Serial.print("data 2 : ");
+//     Serial.println(dt[1]);
+//     Serial.print("data 3 : ");
+//     Serial.println(dt[2]);
+//     Serial.print("data 4 : ");
+//     Serial.println(dt[3]);
+//     Serial.print("\n\n");
+// }
 String Kredensial::readCredential()
 {
     char temp;

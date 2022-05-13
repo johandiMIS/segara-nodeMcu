@@ -17,9 +17,8 @@ class API
         StaticJsonDocument<1000> doc;
         String SERVER;
         String BODY;
-        String stringReveived;
-        void getAPI(String SERVER, String BODY);
-        void readData();
+        String stringReceived;
+        void PostAPI(String SERVER, String JsonBody);
 };
 
 class Wifi
