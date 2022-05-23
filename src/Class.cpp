@@ -24,6 +24,7 @@ void Wifi::Init(WiFiManager *wm, int pin)
 
 void Wifi::CheckReset(){
     if(digitalRead(this->pin) == LOW){
+        Serial.println("resetting wifi");
         this->wm->resetSettings();
         ESP.restart(); 
     }
@@ -44,7 +45,7 @@ void Kredensial::writeCredential(String credential)
 
 void API::PostAPI(String SERVER, String JsonBody)
 {
-    http.begin(client, SERVER);
+    http.begin(client, "https://safe-taiga-38670.herokuapp.com/api/sensor/insert");
     http.addHeader("Content-Type", "application/json");
     
     int responseCode = http.POST(JsonBody);  
@@ -56,34 +57,6 @@ void API::PostAPI(String SERVER, String JsonBody)
     Serial.println(response);
 }
 
-
-
-// void Parsing::dataSensor(String dataIn)
-// {
-//     int j = 0;
-//     dt[j]="";
-//     for(int i=0 ; i < (int)dataIn.length() ; i++){
-//         if ((dataIn[i] == '#') || (dataIn[i] == ','))
-//         {
-//             j++;
-//             dt[j] = "";    
-//         }
-//         else
-//         {
-//             dt[j] = dt[j] + dataIn[i];
-//         }
-//     } 
-      
-//     Serial.print("data 1 : ");
-//     Serial.println(dt[0]);
-//     Serial.print("data 2 : ");
-//     Serial.println(dt[1]);
-//     Serial.print("data 3 : ");
-//     Serial.println(dt[2]);
-//     Serial.print("data 4 : ");
-//     Serial.println(dt[3]);
-//     Serial.print("\n\n");
-// }
 String Kredensial::readCredential()
 {
     char temp;
