@@ -91,7 +91,7 @@ void loop()
       serializeJson(jsonDoc, serial);
       Serial.println(serial);
 
-      String uri = "https://safe-taiga-38670.herokuapp.com/api/sensor/insert";
+      String uri = "http://safe-taiga-38670.herokuapp.com/api/sensor/insert";
       getapi->PostAPI(uri, serial);
 
     }
