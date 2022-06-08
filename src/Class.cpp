@@ -44,20 +44,24 @@ void Kredensial::writeCredential(String credential)
 
 void API::PostAPI(String SERVER, String JsonBody)
 {
+
     http.begin(client, SERVER);
     http.addHeader("Content-Type", "application/json");
     
     int responseCode = http.POST(JsonBody);  
-    const String response = http.getString();
-
-    Serial.print("Response Status : ");
-    Serial.print(responseCode);
-    Serial.print("Response Body : ");
-    Serial.println(response);
+    // const String response = http.getString();
     http.end();
+
+    String strCode = String(responseCode);
+
+    if(strCode == "200"){
+        Serial.println("Success");
+    }
+    else{
+        Serial.println("Fail");
+    }
+    
 }
-
-
 
 String Kredensial::readCredential()
 {
